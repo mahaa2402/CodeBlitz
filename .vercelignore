@@ -1,0 +1,10 @@
+*.pyc
+__pycache__
+.git
+.env
+node_modules/
+*.md
+.vscode/
+.idea/
+.DS_Store
+.venv/
