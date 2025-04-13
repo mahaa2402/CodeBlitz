@@ -9,6 +9,9 @@ from werkzeug.utils import secure_filename
 import base64
 from detector_adapter import DetectorAdapter
 
+import serverless_wsgi  # Import serverless_wsgi for Vercel deployment
+
+
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -16,6 +19,10 @@ logger = logging.getLogger(__name__)
 # Initialize Flask app
 app = Flask(__name__)
 app.secret_key = os.environ.get("SESSION_SECRET", "road_obstacle_detection_secret")
+
+
+def handler(event, context):
+    return serverless_wsgi.handle_request(app, event, context)
 
 # Constants
 UPLOAD_FOLDER = 'static/uploads'
@@ -440,8 +447,6 @@ def page_not_found(e):
 def server_error(e):
     return render_template('500.html'), 500
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=81, debug=True)
 
 
     
